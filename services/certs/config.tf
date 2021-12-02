@@ -1,21 +1,19 @@
 
 # Environment definition copy this file on all services
+variable environment {
+  type = string
+}
 
-# Make sure this variable has the actual service name (same folder name)
-locals {
-  service = "certs"
+terraform {
+  backend "remote" {
+    organization = "testigoelectoral"
+    workspaces {
+      prefix = "certs-"
+    }
+  }
 }
 
 locals {
-  # Map between workspace and actual environment
-  environment_workspace = {
-    "${local.service}-dev" = "dev"
-    "${local.service}-stage" = "stage"
-    "${local.service}-prod" = "prod"
-    "default" = "dev"
-  }
-  # Actual environment
-  environment = local.environment_workspace[terraform.workspace]
 
   # Map between environment and region
   region_environment = {
@@ -25,7 +23,7 @@ locals {
   }
 
   # Actual region
-  region = local.region_environment[local.environment]
+  region = local.region_environment[var.environment]
 }
 
 provider "aws" {
