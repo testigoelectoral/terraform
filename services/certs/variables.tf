@@ -6,5 +6,5 @@ locals {
     "dev" = "api-dev.${local.domain}"
     "stage" = "api-stage.${local.domain}"
   }
-  api_domain = local.api_domain_environment[local.environment]
+  api_domain = local.api_domain_environment[var.environment]
 }
