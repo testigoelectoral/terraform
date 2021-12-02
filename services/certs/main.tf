@@ -9,7 +9,7 @@ resource "aws_acm_certificate" "api" {
   validation_method = "DNS"
 
   tags = {
-    environment = local.environment
+    environment = var.environment
   }
 
   lifecycle {
