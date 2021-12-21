@@ -8,6 +8,7 @@ resource "tfe_workspace" "ws" {
 
   speculative_enabled = var.environment != "prod" ? false : true
   queue_all_runs      = false
+  allow_destroy_plan  = false
 
   vcs_repo {
     branch         = var.environment != "prod" ? var.environment : "main"
