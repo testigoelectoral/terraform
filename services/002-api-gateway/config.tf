@@ -17,9 +17,9 @@ locals {
 
   # Map between environment and region
   region_environment = {
-    "prod" = "us-east-2" # Ohio
+    "prod"  = "us-east-2" # Ohio
     "stage" = "us-east-1" # Virginia
-    "dev" = "us-west-1" # Oregon
+    "dev"   = "us-west-1" # Oregon
   }
 
   # Actual region
