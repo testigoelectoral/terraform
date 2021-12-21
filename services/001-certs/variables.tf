@@ -12,3 +12,7 @@ locals {
 output "arn_api" {
   value = aws_acm_certificate.api.id
 }
+
+output "domain_api" {
+  value = local.api_domain
+}
