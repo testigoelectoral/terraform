@@ -5,10 +5,10 @@ variable environment {
 }
 
 terraform {
-  backend "remote" {
+  cloud {
     organization = "testigoelectoral"
     workspaces {
-      prefix = "api-gateway-"
+      tags = ["api:gateway"]
     }
   }
 }
