@@ -4,7 +4,7 @@ resource "tfe_workspace" "ws" {
   description         = "${upper(var.environment)} ${replace(var.service,"-"," ")}"
   organization        = local.org
   working_directory   = "services/${var.key}-${var.service}"
-  tag_names           = [replace(var.service,"-",":")]
+  tag_names           = [replace(var.service,"-",":"),var.environment]
 
   speculative_enabled = var.environment != "prod" ? false : true
   queue_all_runs      = false
