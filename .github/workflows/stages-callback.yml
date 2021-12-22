@@ -1,0 +1,23 @@
+name: Stages Callback
+on:
+  push:
+    branches:
+      - dev
+      - stage
+jobs:
+  callback:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export MERGED_SHA=$(gh api --jq '.parents[1].sha' /repos/testigoelectoral/terraform/commits/${{ github.event.pull_request.head.sha }})
+          [[ "${MERGED_SHA}" -eq "" ]] && exit 0
+          
+          export QUERY="[.[]|select(.conclusion==\"failure\")|select(.headSha==\"${MERGED_SHA}\")|.databaseId]|sort|unique|.[]"
+          export ACTIONS=$(gh run list --workflow "Check Stages" --json conclusion,headSha,databaseId --jq $QUERY)
+          [[ "${ACTIONS}" -eq "" ]] && exit 0
+
+          for actionId in ${ACTIONS}; do gh run rerun ${actionId} || true; done
