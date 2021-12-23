@@ -27,7 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get Branch name
-          export BRANCH=$(gh api --jq '.[]|select(.commit.sha=="${{ steps.mergedsha.outputs.sha }}")|.name' /repos/testigoelectoral/terraform/branches
+          export BRANCH=$(gh api --jq '.[]|select(.commit.sha=="${{ steps.mergedsha.outputs.sha }}")|.name' /repos/testigoelectoral/terraform/branches)
           echo "BRANCH: ${BRANCH}"
           echo "::set-output name=branch::${BRANCH}"
 
