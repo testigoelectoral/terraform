@@ -11,18 +11,27 @@ jobs:
       - name: "Get Merged SHA"
         id: mergedsha
         shell: bash
+        outputs:
+          sha:
+            description: 'SHA of merged branch'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh api --jq '.parents[1].sha' /repos/testigoelectoral/terraform/commits/${{ github.event.after }}
+        run: |
+          export SHA=$(gh api --jq '.parents[1].sha' /repos/testigoelectoral/terraform/commits/${{ github.event.after }})
+          echo "::set-output name=sha::${SHA}"
 
       - name: "Get Merged SHA"
         shell: bash
         id: actions
+        outputs:
+          actions:
+            description: 'Action IDs to re-run'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          export QUERY="[.workflow_runs[]|select(.name==\"Check Stages\")|select(.head_sha==\"${{ steps.mergedsha.outputs }}\")|.id]|sort|unique|.[]"
-          gh api --jq $QUERY --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs
+          export QUERY="[.workflow_runs[]|select(.name==\"Check Stages\")|select(.head_sha==\"${{ steps.mergedsha.output.sha }}\")|.id]|sort|unique|.[]"
+          export ACTIONS=$(gh api --jq $QUERY --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
+          echo "::set-output name=actions::${ACTIONS}"
 
       - name: "Get Merged SHA"
         shell: bash
@@ -30,4 +39,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo ${{ github.event.before }}
-          for actionId in ${{ steps.actions.outputs }}; do gh run rerun ${actionId} || true; done
+          for actionId in ${{ steps.actions.outputs.actions }}; do gh run rerun ${actionId} || true; done
