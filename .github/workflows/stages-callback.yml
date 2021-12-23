@@ -30,7 +30,8 @@ jobs:
           # Get Actions to re-run
           export SHA=${{ steps.mergedsha.outputs.sha }}
           echo "SHA: ${SHA}"
-          export QUERY="[.workflow_runs[]|select(.name==\"Check Stages\")|select(.head_sha==\"${SHA}\")|.id]|sort|unique|.[]"
+          # export QUERY="[.workflow_runs[]|select(.name==\"Check Stages\")|select(.head_sha==\"${SHA}\")|.id]|sort|unique|.[]"
+          export QUERY='.workflow_runs[]|with_entries(select([.key]|inside(["name","head_sha","id"])))'
           echo "QUERY: ${QUERY}"
           # export ACTIONS=$(gh api --jq ${QUERY} --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
           export ACTIONS=$(gh api --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
@@ -45,4 +46,4 @@ jobs:
           # Rerun actions
           export ACTIONS=${{ steps.actions.outputs.actions }}
           echo "ACTIONS: ${ACTIONS}"
-          for actionId in ${{ steps.actions.outputs.actions }}; do gh run rerun ${actionId} || true; done
+          # for actionId in ${{ steps.actions.outputs.actions }}; do gh run rerun ${actionId} || true; done
