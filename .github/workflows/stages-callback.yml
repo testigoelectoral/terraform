@@ -15,7 +15,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get Merged SHA
-          export SHA=$(gh api --jq '.parents[1].sha' /repos/testigoelectoral/terraform/commits/${{ github.event.after }})
+          export QUERY=".parents[1].sha"
+          echo "QUERY: ${QUERY}"
+          export SHA=$(gh api --jq ${QUERY} /repos/testigoelectoral/terraform/commits/${{ github.event.after }})
           echo "::set-output name=sha::${SHA}"
           echo "SHA: ${SHA}"
 
@@ -29,7 +31,7 @@ jobs:
           echo "SHA: ${SHA}"
           export QUERY="[.workflow_runs[]|select(.name==\"Check Stages\")|select(.head_sha==\"${SHA}\")|.id]|sort|unique|.[]"
           echo "QUERY: ${QUERY}"
-          export ACTIONS=$(gh api --jq $QUERY --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
+          export ACTIONS=$(gh api --jq ${QUERY} --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
           echo "::set-output name=actions::${ACTIONS}"
           echo "ACTIONS: ${ACTIONS}"
 
