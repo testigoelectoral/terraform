@@ -40,4 +40,4 @@ jobs:
           # Rerun actions
           export ACTIONS=${{ steps.actions.outputs.actions }}
           echo "ACTIONS: ${ACTIONS}"
-          # for actionId in ${ACTIONS}; do gh run rerun ${actionId} || true; done
+          for actionId in ${ACTIONS}; do gh run rerun ${actionId} || true; done
