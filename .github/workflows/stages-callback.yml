@@ -20,6 +20,17 @@ jobs:
           echo "SHA: ${SHA}"
           echo "::set-output name=sha::${SHA}"
 
+      - name: "Get Branch name"
+        id: branchname
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get Branch name
+          export BRANCH=$(gh api --jq '.[]|select(.commit.sha=="${{ steps.mergedsha.outputs.sha }}")|.name' /repos/testigoelectoral/terraform/branches
+          echo "BRANCH: ${BRANCH}"
+          echo "::set-output name=branch::${BRANCH}"
+
       - name: "Get Actions to re-run"
         shell: bash
         id: actions
@@ -29,7 +40,7 @@ jobs:
           # Get Actions to re-run
           export QUERY='.workflow_runs[]|select(.head_sha=="${{ steps.mergedsha.outputs.sha }}")|.id'
           echo "QUERY: ${QUERY}"
-          export ACTIONS=$(gh api --jq ${QUERY} --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
+          export ACTIONS=$(gh api --jq ${QUERY} --method GET -f status=failure -f event=pull_request -f branch=${{ steps.branchname.outputs.branch }} /repos/testigoelectoral/terraform/actions/runs)
           echo "ACTIONS: ${ACTIONS}"
           echo "::set-output name=actions::${ACTIONS}"
 
