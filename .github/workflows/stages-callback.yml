@@ -15,9 +15,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get Merged SHA
-          export QUERY=".parents[1].sha"
-          echo "QUERY: ${QUERY}"
-          export SHA=$(gh api --jq ${QUERY} /repos/testigoelectoral/terraform/commits/${{ github.event.after }})
+          export SHA=$(gh api --jq '.parents[1].sha' /repos/testigoelectoral/terraform/commits/${{ github.event.after }})
           echo "SHA: ${SHA}"
           echo "::set-output name=sha::${SHA}"
 
@@ -28,10 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get Actions to re-run
-          export SHA=${{ steps.mergedsha.outputs.sha }}
-          echo "SHA: ${SHA}"
-          # export QUERY="[.workflow_runs[]|select(.name==\"Check Stages\")|select(.head_sha==\"${SHA}\")|.id]|sort|unique|.[]"
-          export QUERY='.workflow_runs[]|with_entries(select([.key]|inside(["head_sha","id"])))|select(.head_sha=="'${SHA}'")|.id'
+          export QUERY='.workflow_runs[]|select(.head_sha=="'${{ steps.mergedsha.outputs.sha }}'")|.id'
           echo "QUERY: ${QUERY}"
           export ACTIONS=$(gh api --jq ${QUERY} --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
           echo "ACTIONS: ${ACTIONS}"
