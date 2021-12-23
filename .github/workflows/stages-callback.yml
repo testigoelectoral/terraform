@@ -26,7 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get Actions to re-run
-          export QUERY='.workflow_runs[]|select(.head_sha=="'${{ steps.mergedsha.outputs.sha }}'")|.id'
+          export QUERY='.workflow_runs[]|select(.head_sha=="${{ steps.mergedsha.outputs.sha }}")|.id'
           echo "QUERY: ${QUERY}"
           export ACTIONS=$(gh api --jq ${QUERY} --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs)
           echo "ACTIONS: ${ACTIONS}"
@@ -40,4 +40,4 @@ jobs:
           # Rerun actions
           export ACTIONS=${{ steps.actions.outputs.actions }}
           echo "ACTIONS: ${ACTIONS}"
-          # for actionId in ${{ steps.actions.outputs.actions }}; do gh run rerun ${actionId} || true; done
+          # for actionId in ${ACTIONS}; do gh run rerun ${actionId} || true; done
