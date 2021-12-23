@@ -8,6 +8,7 @@ jobs:
   callback:
     runs-on: ubuntu-latest
     steps:
+
       - name: "Get Merged SHA"
         id: mergedsha
         shell: bash
@@ -40,4 +41,4 @@ jobs:
           # Rerun actions
           export ACTIONS=${{ steps.actions.outputs.actions }}
           echo "ACTIONS: ${ACTIONS}"
-          for actionId in ${ACTIONS}; do gh run rerun ${actionId} || true; done
+          for actionId in ${ACTIONS}; do gh run rerun ${actionId} -R "testigoelectoral/terraform" || true; done
