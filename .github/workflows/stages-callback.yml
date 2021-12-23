@@ -11,9 +11,6 @@ jobs:
       - name: "Get Merged SHA"
         id: mergedsha
         shell: bash
-        outputs:
-          sha:
-            description: 'SHA of merged branch'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -23,9 +20,6 @@ jobs:
       - name: "Get Merged SHA"
         shell: bash
         id: actions
-        outputs:
-          actions:
-            description: 'Action IDs to re-run'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
