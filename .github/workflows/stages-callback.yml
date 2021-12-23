@@ -21,8 +21,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          export QUERY="[.[]|select(.conclusion==\"failure\")|select(.headSha==\"${{ steps.mergedsha.outputs }}\")|.databaseId]|sort|unique|.[]"
-          gh run list --workflow "Check Stages" --json conclusion,headSha,databaseId --jq $QUERY
+          export QUERY="[.workflow_runs[]|select(.name==\"Check Stages\")|select(.head_sha==\"${{ steps.mergedsha.outputs }}\")|.id]|sort|unique|.[]"
+          gh api --jq $QUERY --method GET -f status=failure -f event=pull_request /repos/testigoelectoral/terraform/actions/runs
 
       - name: "Get Merged SHA"
         shell: bash
