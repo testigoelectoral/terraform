@@ -13,7 +13,7 @@ jobs:
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh api --jq '.parents[1].sha' /repos/testigoelectoral/terraform/commits/${{ github.event.pull_request.head.sha }}
+        run: gh api --jq '.parents[1].sha' /repos/testigoelectoral/terraform/commits/${{ github.event.after }}
 
       - name: "Get Merged SHA"
         shell: bash
@@ -28,4 +28,6 @@ jobs:
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: for actionId in ${{ steps.actions.outputs }}; do gh run rerun ${actionId} || true; done
+        run: |
+          echo ${{ github.event.before }}
+          for actionId in ${{ steps.actions.outputs }}; do gh run rerun ${actionId} || true; done
