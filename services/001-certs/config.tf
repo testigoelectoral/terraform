@@ -29,3 +29,9 @@ locals {
 provider "aws" {
   region = local.region
 }
+
+# Required for global certificates
+provider "aws" {
+  alias  = "virginia"
+  region = "us-east-1"
+}

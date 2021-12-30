@@ -11,6 +11,7 @@ locals {
 resource "aws_acm_certificate" "cognito" {
   domain_name       = local.cognito_domain
   validation_method = "DNS"
+  provider          = aws.virginia
 
   tags = {
     environment = var.environment
