@@ -1,7 +1,11 @@
-# This data source looks up the public DNS zone
-data "aws_route53_zone" "zone" {
-  name         = local.domain
-  private_zone = false
+
+locals {
+  api_domain_environment = {
+    "prod"  = "api.${local.domain}"
+    "dev"   = "api-dev.${local.domain}"
+    "stage" = "api-stage.${local.domain}"
+  }
+  api_domain = local.api_domain_environment[var.environment]
 }
 
 resource "aws_acm_certificate" "api" {
@@ -30,5 +34,13 @@ resource "aws_route53_record" "api_validation" {
 # This tells terraform to cause the route53 validation to happen
 resource "aws_acm_certificate_validation" "cert" {
   certificate_arn         = aws_acm_certificate.api.arn
-  validation_record_fqdns = [ aws_route53_record.api_validation.fqdn ]
+  validation_record_fqdns = [aws_route53_record.api_validation.fqdn]
+}
+
+output "arn_api" {
+  value = aws_acm_certificate.api.id
+}
+
+output "domain_api" {
+  value = local.api_domain
 }
