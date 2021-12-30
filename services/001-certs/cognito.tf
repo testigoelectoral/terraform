@@ -36,6 +36,7 @@ resource "aws_route53_record" "cognito_validation" {
 resource "aws_acm_certificate_validation" "cert_cognito" {
   certificate_arn         = aws_acm_certificate.cognito.arn
   validation_record_fqdns = [aws_route53_record.cognito_validation.fqdn]
+  provider                = aws.virginia
 }
 
 output "arn_cognito" {
