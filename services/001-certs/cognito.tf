@@ -2,7 +2,7 @@
 locals {
   cognito_domain_environment = {
     "prod"  = "user.${local.domain}"
-    "dev"   = "user-dev.${local.domain}"
+    "dev"   = "users-dev.${local.domain}"
     "stage" = "user-stage.${local.domain}"
   }
   cognito_domain = local.cognito_domain_environment[var.environment]
