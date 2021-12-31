@@ -11,3 +11,11 @@ output "bucket_images" {
 output "arn_images" {
   value = aws_s3_bucket.images.arn
 }
+
+output "bucket_artifacts" {
+  value = aws_s3_bucket.artifacts.id
+}
+
+output "arn_artifacts" {
+  value = aws_s3_bucket.artifacts.arn
+}
