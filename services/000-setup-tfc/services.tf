@@ -5,5 +5,6 @@ locals {
     "002" = "api-gateway"
     "003" = "cognito"
     "004" = "s3"
+    "005" = "api-upload"
   }
 }
