@@ -1,6 +1,10 @@
 
 # Environment definition copy this file on all services
-variable environment {
+variable "environment" {
+  type = string
+}
+
+variable "account_id" {
   type = string
 }
 
