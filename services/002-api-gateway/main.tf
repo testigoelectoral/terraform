@@ -16,7 +16,7 @@ resource "aws_api_gateway_domain_name" "domain" {
   endpoint_configuration {
     types = ["REGIONAL"]
   }
-  
+
 }
 
 resource "aws_route53_record" "api" {
