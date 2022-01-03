@@ -8,10 +8,14 @@ terraform {
   }
 }
 
+variable "account_id" {
+  type = string
+}
+
 provider "tfe" {
   token = var.token
 }
 
-variable token {
+variable "token" {
   type = string
 }
