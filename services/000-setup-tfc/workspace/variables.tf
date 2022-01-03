@@ -1,18 +1,22 @@
 
-variable service {
+variable "service" {
   type = string
 }
 
-variable key {
+variable "key" {
   type = string
 }
 
-variable environment {
+variable "environment" {
   type = string
 }
 
 locals {
-  org = "testigoelectoral"
-  repo = "testigoelectoral/terraform"
+  org   = "testigoelectoral"
+  repo  = "testigoelectoral/terraform"
   oauth = "ot-KWJXQyRwAq71FZaa"
+}
+
+output "ws_id" {
+  value = tfe_workspace.ws.id
 }
