@@ -12,6 +12,11 @@ resource "aws_lambda_function" "lambda" {
   runtime = "go1.x"
   handler = "main"
 
+  environment {
+    variables = {
+      UPLOAD_BUCKET = local.images_bucket
+    }
+  }
 }
 
 data "aws_s3_bucket_object" "sha" {
