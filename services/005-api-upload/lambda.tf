@@ -48,7 +48,7 @@ resource "aws_iam_policy" "policy" {
       {
         Effect   = "Allow"
         Action   = "s3:PutObject"
-        Resource = "${local.artifacts_bucket_arn}/*"
+        Resource = "${local.images_bucket_arn}/*"
       },
     ]
   })
