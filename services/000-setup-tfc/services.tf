@@ -6,5 +6,6 @@ locals {
     "003" = "cognito"
     "004" = "s3"
     "005" = "api-upload"
+    "006" = "cloudfront"
   }
 }
