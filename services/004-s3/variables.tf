@@ -19,3 +19,15 @@ output "bucket_artifacts" {
 output "arn_artifacts" {
   value = aws_s3_bucket.artifacts.arn
 }
+
+output "bucket_webapp" {
+  value = aws_s3_bucket.webapp.id
+}
+
+output "arn_webapp" {
+  value = aws_s3_bucket.webapp.arn
+}
+
+output "user_artifacts" {
+  value = aws_iam_user.artifacts.name
+}
