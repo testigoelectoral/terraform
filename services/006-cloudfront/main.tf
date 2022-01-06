@@ -53,3 +53,24 @@ resource "aws_route53_record" "app" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_iam_policy" "invalidate" {
+  name = "invalidation-${var.environment}"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "cloudfront:CreateInvalidation"
+        Resource = aws_cloudfront_distribution.app.arn
+      }
+    ]
+  })
+
+}
+
+resource "aws_iam_user_policy_attachment" "invalidate" {
+  user       = local.user_artifacts
+  policy_arn = aws_iam_policy.invalidate.arn
+}
