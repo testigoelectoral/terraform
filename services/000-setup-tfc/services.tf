@@ -8,5 +8,6 @@ locals {
     "005" = "api-upload"
     "006" = "cloudfront"
     "007" = "kms"
+    "008" = "be-user-hash"
   }
 }
