@@ -4,16 +4,6 @@ locals {
   domain = "testigoelectoral.org"
 }
 
-data "tfe_outputs" "certs" {
-  organization = local.org
-  workspace    = "${var.environment}-001-certs"
-}
-
-data "tfe_outputs" "s3" {
-  organization = local.org
-  workspace    = "${var.environment}-004-s3"
-}
-
 data "aws_route53_zone" "testigo" {
   name         = local.domain
   private_zone = false
