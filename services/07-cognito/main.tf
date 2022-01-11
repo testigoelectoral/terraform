@@ -72,6 +72,10 @@ resource "aws_cognito_user_pool" "testigo" {
     }
   }
 
+  lambda_config {
+    post_confirmation = local.userhash_arn
+  }
+
 }
 
 resource "aws_cognito_user_pool_client" "testigo" {
@@ -81,7 +85,7 @@ resource "aws_cognito_user_pool_client" "testigo" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "phone", "openid"]
   explicit_auth_flows                  = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
-  callback_urls                        = ["https://${local.domain}","https://${local.app_domain}"]
+  callback_urls                        = ["https://${local.domain}", "https://${local.app_domain}"]
   prevent_user_existence_errors        = "ENABLED"
   supported_identity_providers         = ["COGNITO"]
   id_token_validity                    = 60
