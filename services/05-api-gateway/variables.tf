@@ -4,11 +4,6 @@ locals {
   domain = "testigoelectoral.org"
 }
 
-data "tfe_outputs" "certs" {
-  organization = local.org
-  workspace    = "${var.environment}-001-certs"
-}
-
 data "aws_route53_zone" "api" {
   name         = local.domain
   private_zone = false

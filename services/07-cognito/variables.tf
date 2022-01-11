@@ -8,16 +8,6 @@ data "aws_route53_zone" "testigo" {
   private_zone = false
 }
 
-data "tfe_outputs" "certs" {
-  organization = local.org
-  workspace    = "${var.environment}-001-certs"
-}
-
-data "tfe_outputs" "apigw" {
-  organization = local.org
-  workspace    = "${var.environment}-002-api-gateway"
-}
-
 locals {
   cognito_domain = data.tfe_outputs.certs.values.domain_cognito
   app_domain = data.tfe_outputs.certs.values.domain_api
