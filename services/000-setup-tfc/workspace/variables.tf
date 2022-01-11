@@ -20,3 +20,7 @@ locals {
 output "ws_id" {
   value = tfe_workspace.ws.id
 }
+
+output "ws_name" {
+  value = tfe_workspace.ws.name
+}
