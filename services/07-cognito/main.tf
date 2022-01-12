@@ -85,7 +85,7 @@ resource "aws_cognito_user_pool_client" "testigo" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "phone", "openid"]
   explicit_auth_flows                  = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
-  callback_urls                        = ["https://${local.domain}", "https://${local.app_domain}"]
+  callback_urls                        = ["https://${local.domain}", "https://${local.app_domain}","http://localhost:3000","http://localhost:3000/api/auth/callback/cognito"]
   prevent_user_existence_errors        = "ENABLED"
   supported_identity_providers         = ["COGNITO"]
   id_token_validity                    = 60
@@ -124,3 +124,11 @@ resource "aws_api_gateway_authorizer" "authorizer" {
   provider_arns = [aws_cognito_user_pool.testigo.arn]
 }
 
+resource "aws_lambda_permission" "lambda_policy" {
+  statement_id  = "AllowExecutionFromCognito"
+  action        = "lambda:InvokeFunction"
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.testigo.arn
+  function_name = "be-cognito-user-hash-${var.environment}"
+  qualifier     = "running"
+}
