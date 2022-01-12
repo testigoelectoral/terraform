@@ -16,5 +16,5 @@ data "tfe_outputs" "apigw" {
 
 data "tfe_outputs" "userhash" {
   organization = local.org
-  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["be-user-hash"]
+  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["backend-user-hash"]
 }
