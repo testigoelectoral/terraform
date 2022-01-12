@@ -16,7 +16,7 @@ resource "aws_iam_policy" "policy" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = "cognito:AdminUpdateUserAttributes"
+        Action   = "cognito-idp:AdminUpdateUserAttributes"
         Resource = "${aws_cognito_user_pool.testigo.arn}"
       },
     ]
