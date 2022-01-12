@@ -11,6 +11,7 @@ resource "aws_lambda_function" "lambda" {
 
   runtime = "go1.x"
   handler = "main"
+  publish = true
 
   environment {
     variables = {
