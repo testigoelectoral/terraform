@@ -1,7 +1,7 @@
 
 
 resource "aws_lambda_function" "lambda" {
-  function_name = "be-${local.function}-${var.environment}"
+  function_name = "backend-${local.function}-${var.environment}"
 
   role = aws_iam_role.role.arn
 

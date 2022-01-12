@@ -4,7 +4,7 @@ resource "aws_lambda_permission" "lambda_policy" {
   action        = "lambda:InvokeFunction"
   principal     = "cognito-idp.amazonaws.com"
   source_arn    = aws_cognito_user_pool.testigo.arn
-  function_name = "be-cognito-user-hash-${var.environment}"
+  function_name = "backend-cognito-user-hash-${var.environment}"
   qualifier     = "running"
 }
 
