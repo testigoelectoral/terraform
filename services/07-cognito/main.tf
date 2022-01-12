@@ -123,12 +123,3 @@ resource "aws_api_gateway_authorizer" "authorizer" {
   rest_api_id   = local.apigw_id
   provider_arns = [aws_cognito_user_pool.testigo.arn]
 }
-
-resource "aws_lambda_permission" "lambda_policy" {
-  statement_id  = "AllowExecutionFromCognito"
-  action        = "lambda:InvokeFunction"
-  principal     = "cognito-idp.amazonaws.com"
-  source_arn    = aws_cognito_user_pool.testigo.arn
-  function_name = "be-cognito-user-hash-${var.environment}"
-  qualifier     = "running"
-}

@@ -43,6 +43,11 @@ data "aws_iam_policy_document" "lambda-assume-policy" {
   }
 }
 
+resource "aws_iam_role_policy_attachment" "policy-attach-basic_execution_role" {
+  role       = aws_iam_role.role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
 resource "aws_kms_grant" "grant" {
   key_id            = local.kms_key_id
   grantee_principal = aws_iam_role.role.arn
