@@ -29,7 +29,7 @@ resource "aws_cognito_user_pool" "testigo" {
 
     string_attribute_constraints {
       min_length = 7
-      max_length = 256
+      max_length = 128
     }
   }
 
@@ -55,7 +55,7 @@ resource "aws_cognito_user_pool" "testigo" {
 
     string_attribute_constraints {
       min_length = 1
-      max_length = 256
+      max_length = 128
     }
   }
 
@@ -85,7 +85,7 @@ resource "aws_cognito_user_pool_client" "testigo" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "phone", "openid"]
   explicit_auth_flows                  = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
-  callback_urls                        = ["https://${local.domain}", "https://${local.app_domain}", "http://localhost:3000", "http://localhost:3000/api/auth/callback/cognito"]
+  callback_urls                        = local.cognito_callback
   prevent_user_existence_errors        = "ENABLED"
   supported_identity_providers         = ["COGNITO"]
   id_token_validity                    = 60
