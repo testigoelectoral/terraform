@@ -15,12 +15,19 @@ variable "secret_seed" {
 }
 
 locals {
-  function         = "cognito-user-hash"
+  function = {
+    hash        = "cognito-user-hash"
+    validations = "cognito-validations"
+  }
   kms_key_arn      = data.tfe_outputs.kms.values.custom_arn
   kms_key_id       = data.tfe_outputs.kms.values.custom_id
   artifacts_bucket = data.tfe_outputs.s3.values.bucket_artifacts
 }
 
-output "arn" {
-  value = aws_lambda_alias.running.arn
+output "hash_arn" {
+  value = aws_lambda_alias.hash.arn
+}
+
+output "validations_arn" {
+  value = aws_lambda_alias.validations.arn
 }
