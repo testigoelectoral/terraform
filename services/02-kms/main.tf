@@ -5,10 +5,18 @@ resource "aws_kms_key" "custom" {
     Statement = [
       {
         NotAction = "kms:Decrypt"
+        Effect    = "Allow"
+        Resource  = "*"
+        Principal = {
+          AWS = "arn:aws:iam::${var.account_id}:root"
+        }
+      },
+      {
+        Action   = "kms:Decrypt"
         Effect   = "Allow"
         Resource = "*"
         Principal = {
-          AWS = "arn:aws:iam::${var.account_id}:root"
+          AWS = "arn:aws:iam::${var.account_id}:user/terraform-cloud"
         }
       },
     ]
