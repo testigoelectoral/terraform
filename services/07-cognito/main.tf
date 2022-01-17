@@ -74,6 +74,7 @@ resource "aws_cognito_user_pool" "testigo" {
 
   lambda_config {
     post_confirmation = local.userhash_arn
+    pre_sign_up       = local.validations_arn
   }
 
 }

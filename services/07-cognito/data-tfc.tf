@@ -14,7 +14,7 @@ data "tfe_outputs" "apigw" {
   workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["api-gateway"]
 }
 
-data "tfe_outputs" "userhash" {
+data "tfe_outputs" "backend-cognito" {
   organization = local.org
-  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["backend-user-hash"]
+  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["backend-cognito"]
 }
