@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "testigoelectoral"
     workspaces {
-      tags = ["backend:user:hash"]
+      tags = ["backend:cognito"]
     }
   }
 }
