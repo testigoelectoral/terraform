@@ -6,5 +6,5 @@ data "tfe_outputs" "setup" {
 
 data "tfe_outputs" "certs" {
   organization = local.org
-  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["certs"]
+  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["certs"].name
 }

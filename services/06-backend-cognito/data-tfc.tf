@@ -6,10 +6,10 @@ data "tfe_outputs" "setup" {
 
 data "tfe_outputs" "s3" {
   organization = local.org
-  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["s3"]
+  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["s3"].name
 }
 
 data "tfe_outputs" "kms" {
   organization = local.org
-  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["kms"]
+  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["kms"].name
 }
