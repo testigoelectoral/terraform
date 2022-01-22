@@ -9,5 +9,7 @@ locals {
     "backend-cognito" = "06"
     "cognito"         = "07"
     "api-upload"      = "08"
+    "dynamodb"        = "09"
+    "api-myimages"    = "10"
   }
 }
