@@ -18,3 +18,8 @@ data "tfe_outputs" "cognito" {
   organization = local.org
   workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["cognito"].name
 }
+
+data "tfe_outputs" "dynamodb" {
+  organization = local.org
+  workspace    = data.tfe_outputs.setup.values.ws_name[var.environment]["dynamodb"].name
+}
