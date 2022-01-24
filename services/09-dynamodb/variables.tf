@@ -1,0 +1,4 @@
+
+locals {
+  org = "testigoelectoral"
+}
