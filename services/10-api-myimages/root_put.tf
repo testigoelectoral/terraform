@@ -15,6 +15,10 @@ resource "aws_api_gateway_method" "put" {
     "method.request.header.X-Amz-Meta-Longitude" = true,
     "method.request.header.X-Amz-Meta-User-Hash" = true,
   }
+
+  depends_on = [
+    aws_api_gateway_resource.myimages
+  ]
 }
 
 resource "aws_api_gateway_integration" "put" {
@@ -24,18 +28,22 @@ resource "aws_api_gateway_integration" "put" {
 
   integration_http_method = "PUT"
   type                    = "AWS"
-  uri                     = "arn:aws:apigateway:${local.region}:s3:path/${local.images_bucket}/{sub}/{name}"
+  uri                     = "arn:aws:apigateway:${local.region}:s3:path/${local.images_bucket}/{sub}/{imageid}"
   credentials             = aws_iam_role.myimages.arn
 
   request_parameters = {
     "integration.request.path.sub"                    = "context.authorizer.claims.sub",
-    "integration.request.path.name"                   = "context.requestId",
+    "integration.request.path.imageid"                = "context.requestId",
     "integration.request.header.Content-Type"         = "method.request.header.Content-Type",
     "integration.request.header.X-Amz-Meta-Accuracy"  = "method.request.header.X-Amz-Meta-Accuracy",
     "integration.request.header.X-Amz-Meta-Latitude"  = "method.request.header.X-Amz-Meta-Latitude",
     "integration.request.header.X-Amz-Meta-Longitude" = "method.request.header.X-Amz-Meta-Longitude",
     "integration.request.header.X-Amz-Meta-User-Hash" = "method.request.header.X-Amz-Meta-User-Hash",
   }
+
+  depends_on = [
+    aws_api_gateway_method.put
+  ]
 }
 
 resource "aws_api_gateway_method_response" "put" {
@@ -46,6 +54,10 @@ resource "aws_api_gateway_method_response" "put" {
   http_method = aws_api_gateway_method.put.http_method
 
   status_code = each.value.code
+
+  depends_on = [
+    aws_api_gateway_method.put
+  ]
 }
 
 resource "aws_api_gateway_integration_response" "put" {
@@ -56,5 +68,9 @@ resource "aws_api_gateway_integration_response" "put" {
   http_method = aws_api_gateway_method.put.http_method
 
   status_code       = aws_api_gateway_method_response.put[each.key].status_code
-  selection_pattern = each.value.code
+  selection_pattern = each.value.pattern
+
+  depends_on = [
+    aws_api_gateway_method_response.put
+  ]
 }

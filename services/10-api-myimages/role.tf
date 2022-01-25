@@ -13,16 +13,21 @@ data "aws_iam_policy_document" "myimages-assume" {
   }
 }
 
-resource "aws_iam_policy" "myimages-s3" {
-  name = "apigw-myimages-s3-${var.environment}"
+resource "aws_iam_policy" "myimages" {
+  name = "apigw-myimages-${var.environment}"
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
         Effect   = "Allow"
-        Action   = "s3:PutObject"
+        Action   = ["s3:PutObject", "s3:GetObject"]
         Resource = "${local.images_bucket_arn}/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = "dynamodb:Query"
+        Resource = [local.dynamodb_images_arn]
       },
     ]
   })
@@ -30,5 +35,5 @@ resource "aws_iam_policy" "myimages-s3" {
 
 resource "aws_iam_role_policy_attachment" "policy-attach" {
   role       = aws_iam_role.myimages.name
-  policy_arn = aws_iam_policy.myimages-s3.arn
+  policy_arn = aws_iam_policy.myimages.arn
 }
