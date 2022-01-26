@@ -26,7 +26,7 @@ resource "aws_iam_policy" "myimages" {
       },
       {
         Effect   = "Allow"
-        Action   = "dynamodb:Query"
+        Action   = ["dynamodb:Query", "dynamodb:Scan"]
         Resource = [local.dynamodb_images_arn]
       },
     ]
