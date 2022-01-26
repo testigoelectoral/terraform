@@ -12,8 +12,8 @@ locals {
   cognito_autorizer    = data.tfe_outputs.cognito.values.authorizer_id
   dynamodb_images_arn  = data.tfe_outputs.dynamodb.values.images_arn
   dynamodb_images_name = data.tfe_outputs.dynamodb.values.images_name
-  dynamodb_votes_arn   = data.tfe_outputs.dynamodb.values.images_votes_arn
-  dynamodb_votes_name  = data.tfe_outputs.dynamodb.values.images_votes_name
+  dynamodb_votes_arn   = data.tfe_outputs.dynamodb.values.image_votes_arn
+  dynamodb_votes_name  = data.tfe_outputs.dynamodb.values.image_votes_name
 
   api_status_response = {
     "OK"    = { code = "200", pattern = "2\\d{2}" },
