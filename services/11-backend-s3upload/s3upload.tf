@@ -13,6 +13,14 @@ resource "aws_lambda_function" "s3upload" {
   handler = "main"
   publish = true
 
+  environment {
+    variables = {
+      POOL_ID              = local.cognito_pool_id
+      DYNAMODB_IMAGE_TABLE = local.images_table_name
+    }
+  }
+
+
 }
 
 data "aws_s3_bucket_object" "s3upload" {
@@ -91,5 +99,5 @@ resource "aws_lambda_permission" "s3upload" {
   function_name = aws_lambda_function.s3upload.function_name
   principal     = "s3.amazonaws.com"
   source_arn    = local.images_bucket_arn
-  qualifier = "${aws_lambda_alias.s3upload.name}"
+  qualifier     = aws_lambda_alias.s3upload.name
 }
