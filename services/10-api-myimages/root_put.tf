@@ -14,6 +14,7 @@ resource "aws_api_gateway_method" "put" {
     "method.request.header.X-Amz-Meta-Latitude"  = true,
     "method.request.header.X-Amz-Meta-Longitude" = true,
     "method.request.header.X-Amz-Meta-User-Hash" = true,
+    "method.request.header.X-Amz-Meta-Qr-Code"   = false,
   }
 
   depends_on = [
@@ -39,6 +40,7 @@ resource "aws_api_gateway_integration" "put" {
     "integration.request.header.X-Amz-Meta-Latitude"  = "method.request.header.X-Amz-Meta-Latitude",
     "integration.request.header.X-Amz-Meta-Longitude" = "method.request.header.X-Amz-Meta-Longitude",
     "integration.request.header.X-Amz-Meta-User-Hash" = "method.request.header.X-Amz-Meta-User-Hash",
+    "integration.request.header.X-Amz-Meta-Qr-Code"   = "method.request.header.X-Amz-Meta-Qr-Code",
   }
 
   depends_on = [

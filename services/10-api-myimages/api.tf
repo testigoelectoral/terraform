@@ -25,3 +25,10 @@ resource "aws_api_gateway_resource" "raw" {
 
   path_part = "raw"
 }
+
+resource "aws_api_gateway_resource" "votes" {
+  rest_api_id = local.apigw_id
+  parent_id   = aws_api_gateway_resource.id_image.id
+
+  path_part = "votes"
+}
