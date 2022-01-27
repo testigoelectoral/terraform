@@ -92,13 +92,13 @@ resource "aws_api_gateway_integration_response" "id_get-response" {
       {
         "OwnerReport": $inputRoot.Items[0].OwnerReport.BOOL,
         "CreatedAt": "$inputRoot.Items[0].CreatedAt.S",
-        "StateCode": "$inputRoot.Items[0].PageMeta.M.LocationStateCode.N",
-        "MunicipalityCode": "$inputRoot.Items[0].PageMeta.M.LocationMunicipalityCode.N",
-        "ZoneCode": "$inputRoot.Items[0].PageMeta.M.LocationZoneCode.N",
-        "PlaceCode": "$inputRoot.Items[0].PageMeta.M.LocationPlace.N",
-        "Table": "$inputRoot.Items[0].PageMeta.M.LocationTable.N",
-        "TypeCode": "$inputRoot.Items[0].PageMeta.M.PageType.N",
-        "PageNumber": "$inputRoot.Items[0].PageMeta.M.PageNumber.N"
+        "StateCode": $inputRoot.Items[0].PageMeta.M.LocationStateCode.N,
+        "MunicipalityCode": $inputRoot.Items[0].PageMeta.M.LocationMunicipalityCode.N,
+        "ZoneCode": $inputRoot.Items[0].PageMeta.M.LocationZoneCode.N,
+        "PlaceCode": $inputRoot.Items[0].PageMeta.M.LocationPlace.N,
+        "Table": $inputRoot.Items[0].PageMeta.M.LocationTable.N,
+        "TypeCode": $inputRoot.Items[0].PageMeta.M.PageType.N,
+        "PageNumber": $inputRoot.Items[0].PageMeta.M.PageNumber.N
       }
     EOF
   }
