@@ -57,6 +57,8 @@ resource "aws_api_gateway_method_response" "votes_get" {
 
   status_code = each.value.code
 
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = true }
+
   depends_on = [
     aws_api_gateway_method.votes_get
   ]
@@ -74,6 +76,8 @@ resource "aws_api_gateway_integration_response" "votes_get" {
 
   status_code       = aws_api_gateway_method_response.votes_get[each.key].status_code
   selection_pattern = each.value.pattern
+
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "'${local.options_domains}'" }
 
   depends_on = [
     aws_api_gateway_method_response.get
@@ -107,6 +111,8 @@ resource "aws_api_gateway_integration_response" "votes_get-response" {
 
     EOF
   }
+
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "'${local.options_domains}'" }
 
   depends_on = [
     aws_api_gateway_method_response.get

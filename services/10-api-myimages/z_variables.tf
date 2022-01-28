@@ -5,6 +5,16 @@ locals {
 }
 
 locals {
+  app_domain_environment = {
+    "prod"  = "https://app.${local.domain}"
+    "dev"   = "https://app-dev.${local.domain}"
+    "stage" = "https://app-stage.${local.domain}"
+  }
+  app_domain      = local.app_domain_environment[var.environment]
+  options_domains = var.environment == "dev" ? "*" : local.app_domain
+}
+
+locals {
   images_bucket        = data.tfe_outputs.s3.values.bucket_images
   images_bucket_arn    = data.tfe_outputs.s3.values.arn_images
   apigw_id             = data.tfe_outputs.apigw.values.arn_api
