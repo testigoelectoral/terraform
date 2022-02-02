@@ -17,7 +17,7 @@ resource "aws_iam_policy" "artifacts" {
       },
       {
         Effect   = "Allow"
-        Action   = ["s3:ListBucket", "s3:PutObject", "s3:PutObjectAcl"]
+        Action   = ["s3:ListBucket", "s3:PutObject", "s3:PutObjectAcl", "s3:DeleteObject"]
         Resource = ["${aws_s3_bucket.webapp.arn}/*", "${aws_s3_bucket.webapp.arn}"]
       },
     ]
