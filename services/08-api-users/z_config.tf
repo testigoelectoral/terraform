@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "testigoelectoral"
     workspaces {
-      tags = ["api:upload"]
+      tags = ["api:users"]
     }
   }
 }
