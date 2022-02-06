@@ -19,11 +19,11 @@ resource "aws_api_gateway_resource" "login" {
   path_part = "login"
 }
 
-resource "aws_api_gateway_resource" "signin" {
+resource "aws_api_gateway_resource" "signup" {
   rest_api_id = local.apigw_id
   parent_id   = aws_api_gateway_resource.user.id
 
-  path_part = "signin"
+  path_part = "signup"
 }
 
 resource "aws_api_gateway_resource" "confirm" {
@@ -33,6 +33,12 @@ resource "aws_api_gateway_resource" "confirm" {
   path_part = "confirm"
 }
 
+resource "aws_api_gateway_resource" "token" {
+  rest_api_id = local.apigw_id
+  parent_id   = aws_api_gateway_resource.user.id
+
+  path_part = "token"
+}
 
 ################################################################################################### 
 
@@ -47,7 +53,7 @@ module "options_login" {
 
 module "options_signin" {
   source          = "./options"
-  resource_id     = aws_api_gateway_resource.signin.id
+  resource_id     = aws_api_gateway_resource.signup.id
   methods         = "POST"
   options_domains = local.options_domains
   apigw_id        = local.apigw_id
@@ -57,6 +63,14 @@ module "options_confirm" {
   source          = "./options"
   resource_id     = aws_api_gateway_resource.confirm.id
   methods         = "POST,PUT"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
+
+module "options_token" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.token.id
+  methods         = "POST"
   options_domains = local.options_domains
   apigw_id        = local.apigw_id
 }
