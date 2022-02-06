@@ -21,6 +21,7 @@ resource "aws_api_gateway_method_response" "options" {
   status_code = "200"
 
   response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
     "method.response.header.Access-Control-Allow-Methods" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true,
   }
@@ -34,6 +35,7 @@ resource "aws_api_gateway_integration_response" "options" {
   selection_pattern = "2\\d{2}"
 
   response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'",
     "method.response.header.Access-Control-Allow-Methods" = "'${var.methods}'",
     "method.response.header.Access-Control-Allow-Origin"  = "'${var.options_domains}'",
   }
