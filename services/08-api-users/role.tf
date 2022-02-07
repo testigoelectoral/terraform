@@ -20,8 +20,16 @@ resource "aws_iam_policy" "login" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
-        Action   = ["cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:ConfirmSignUp", "cognito-idp:ResendConfirmationCode"]
+        Effect = "Allow"
+        Action = [
+          "cognito-idp:InitiateAuth",
+          "cognito-idp:SignUp",
+          "cognito-idp:ConfirmSignUp",
+          "cognito-idp:ResendConfirmationCode",
+          "cognito-idp:ChangePassword",
+          "cognito-idp:ForgotPassword",
+          "cognito-idp:ConfirmForgotPassword"
+        ]
         Resource = "${local.pool_arn}"
       },
     ]

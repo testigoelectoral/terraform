@@ -35,7 +35,7 @@ resource "aws_api_gateway_integration_response" "options" {
   selection_pattern = "2\\d{2}"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'",
+    "method.response.header.Access-Control-Allow-Headers" = "'Authorization,Content-Type'",
     "method.response.header.Access-Control-Allow-Methods" = "'${var.methods}'",
     "method.response.header.Access-Control-Allow-Origin"  = "'${var.options_domains}'",
   }
