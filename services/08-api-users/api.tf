@@ -40,6 +40,20 @@ resource "aws_api_gateway_resource" "token" {
   path_part = "token"
 }
 
+resource "aws_api_gateway_resource" "forgot" {
+  rest_api_id = local.apigw_id
+  parent_id   = aws_api_gateway_resource.user.id
+
+  path_part = "forgot"
+}
+
+resource "aws_api_gateway_resource" "password" {
+  rest_api_id = local.apigw_id
+  parent_id   = aws_api_gateway_resource.user.id
+
+  path_part = "password"
+}
+
 ################################################################################################### 
 
 module "options_login" {
@@ -70,6 +84,22 @@ module "options_confirm" {
 module "options_token" {
   source          = "./options"
   resource_id     = aws_api_gateway_resource.token.id
+  methods         = "POST"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
+
+module "options_forgot" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.forgot.id
+  methods         = "POST,PUT"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
+
+module "options_password" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.password.id
   methods         = "POST"
   options_domains = local.options_domains
   apigw_id        = local.apigw_id
