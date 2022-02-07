@@ -7,10 +7,10 @@ resource "aws_api_gateway_method" "options" {
 }
 
 resource "aws_api_gateway_integration" "options" {
-  rest_api_id       = var.apigw_id
-  resource_id       = var.resource_id
-  http_method       = "OPTIONS"
-  type              = "MOCK"
+  rest_api_id = var.apigw_id
+  resource_id = var.resource_id
+  http_method = "OPTIONS"
+  type        = "MOCK"
 
   depends_on = [
     aws_api_gateway_method.options
