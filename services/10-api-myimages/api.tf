@@ -32,3 +32,42 @@ resource "aws_api_gateway_resource" "votes" {
 
   path_part = "votes"
 }
+
+################################################################################################### 
+
+module "options_root" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.myimages.id
+  methods         = "GET,PUT"
+  headers         = "Authorization,Content-Type,X-Amz-Meta-Accuracy,X-Amz-Meta-Latitude,X-Amz-Meta-Longitude,X-Amz-Meta-User-Hash,X-Amz-Meta-Qr-Code"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
+
+
+module "options_id_image" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.id_image.id
+  methods         = "GET"
+  headers         = "Authorization"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
+
+module "options_raw" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.raw.id
+  methods         = "GET"
+  headers         = "Authorization"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
+
+module "options_votes" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.votes.id
+  methods         = "PUT,GET"
+  headers         = "Authorization,Content-Type"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
