@@ -14,7 +14,7 @@ resource "aws_api_gateway_method" "put" {
     "method.request.header.X-Amz-Meta-Latitude"  = true,
     "method.request.header.X-Amz-Meta-Longitude" = true,
     "method.request.header.X-Amz-Meta-User-Hash" = true,
-    "method.request.header.X-Amz-Meta-Qr-Code"   = false,
+    "method.request.header.X-Amz-Meta-Qr-Code"   = true,
   }
 
   depends_on = [
