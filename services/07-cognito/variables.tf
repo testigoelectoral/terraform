@@ -41,3 +41,19 @@ output "client_id" {
 output "authorizer_id" {
   value = aws_api_gateway_authorizer.authorizer.id
 }
+
+output "account_pool_id" {
+  value = aws_cognito_user_pool.account.id
+}
+
+output "account_pool_arn" {
+  value = aws_cognito_user_pool.account.arn
+}
+
+output "account_pool_endpoint" {
+  value = aws_cognito_user_pool.account.endpoint
+}
+
+output "account_client_id" {
+  value = aws_cognito_user_pool_client.account.id
+}
