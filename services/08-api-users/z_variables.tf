@@ -15,11 +15,13 @@ locals {
 }
 
 locals {
-  apigw_id          = data.tfe_outputs.apigw.values.arn_api
-  apigw_root        = data.tfe_outputs.apigw.values.root_id
-  pool_arn          = data.tfe_outputs.cognito.values.pool_arn
-  cognito_client_id = data.tfe_outputs.cognito.values.client_id
-  cognito_autorizer = data.tfe_outputs.cognito.values.authorizer_id
+  apigw_id                  = data.tfe_outputs.apigw.values.arn_api
+  apigw_root                = data.tfe_outputs.apigw.values.root_id
+  pool_arn                  = data.tfe_outputs.cognito.values.pool_arn
+  cognito_client_id         = data.tfe_outputs.cognito.values.client_id
+  cognito_autorizer         = data.tfe_outputs.cognito.values.authorizer_id
+  account_pool_arn          = data.tfe_outputs.cognito.values.account_pool_arn
+  account_cognito_client_id = data.tfe_outputs.cognito.values.account_client_id
 
   api_status_response = {
     "OK"    = { code = "200", pattern = "2\\d{2}" },
