@@ -60,6 +60,19 @@ resource "aws_cognito_user_pool" "testigo" {
   }
 
   schema {
+    attribute_data_type      = "Number"
+    developer_only_attribute = false
+    mutable                  = true
+    name                     = "document"
+    required                 = false
+
+    number_attribute_constraints {
+      min_value = 99999
+      max_value = 20000000000
+    }
+  }
+
+  schema {
     attribute_data_type      = "String"
     developer_only_attribute = false
     mutable                  = true
