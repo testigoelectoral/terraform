@@ -1,9 +1,9 @@
 
-resource "aws_cognito_user_pool" "testigo" {
+resource "aws_cognito_user_pool" "account" {
 
-  name                       = "pool-testigo-${var.environment}"
-  alias_attributes           = ["email", "phone_number"]
+  name                       = "testigo-${var.environment}"
   auto_verified_attributes   = ["email"]
+  username_attributes        = ["email"]
   email_verification_subject = "${var.environment == "prod" ? "" : format("[%s] ", upper(var.environment))}Codigo de verificacion para testigoelectoral.org"
   email_verification_message = "Por favor use el siguiente código: {####}"
 
@@ -85,55 +85,26 @@ resource "aws_cognito_user_pool" "testigo" {
     }
   }
 
-  lambda_config {
-    post_confirmation = local.userhash_arn
-    pre_sign_up       = local.validations_arn
-  }
+  #   lambda_config {
+  #     post_confirmation = local.userhash_arn
+  #     pre_sign_up       = local.validations_arn
+  #   }
 
 }
 
-resource "aws_cognito_user_pool_client" "testigo" {
-  name                                 = "client-testigo-${var.environment}"
-  user_pool_id                         = aws_cognito_user_pool.testigo.id
-  allowed_oauth_flows_user_pool_client = true
-  allowed_oauth_flows                  = ["code", "implicit"]
-  allowed_oauth_scopes                 = ["email", "phone", "openid"]
-  explicit_auth_flows                  = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
-  callback_urls                        = local.cognito_callback
-  prevent_user_existence_errors        = "ENABLED"
-  supported_identity_providers         = ["COGNITO"]
-  id_token_validity                    = 60
-  access_token_validity                = 60
-  refresh_token_validity               = 30
+resource "aws_cognito_user_pool_client" "account" {
+  name                          = "testigo-${var.environment}"
+  user_pool_id                  = aws_cognito_user_pool.account.id
+  explicit_auth_flows           = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
+  prevent_user_existence_errors = "ENABLED"
+  supported_identity_providers  = ["COGNITO"]
+  id_token_validity             = 60
+  access_token_validity         = 60
+  refresh_token_validity        = 3
 
   token_validity_units {
     access_token  = "minutes"
     id_token      = "minutes"
     refresh_token = "days"
   }
-}
-
-resource "aws_cognito_user_pool_domain" "testigo" {
-  domain          = local.cognito_domain
-  certificate_arn = local.cognito_cert
-  user_pool_id    = aws_cognito_user_pool.testigo.id
-}
-
-resource "aws_route53_record" "cognito" {
-  name    = aws_cognito_user_pool_domain.testigo.domain
-  type    = "A"
-  zone_id = data.aws_route53_zone.testigo.zone_id
-  alias {
-    evaluate_target_health = false
-    name                   = aws_cognito_user_pool_domain.testigo.cloudfront_distribution_arn
-    # This zone_id is fixed
-    zone_id = "Z2FDTNDATAQYW2"
-  }
-}
-
-resource "aws_api_gateway_authorizer" "authorizer" {
-  name          = "CognitoUserPoolAuthorizer"
-  type          = "COGNITO_USER_POOLS"
-  rest_api_id   = local.apigw_id
-  provider_arns = [aws_cognito_user_pool.testigo.arn, aws_cognito_user_pool.account.arn]
 }
