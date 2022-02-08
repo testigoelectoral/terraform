@@ -12,6 +12,10 @@ resource "aws_api_gateway_integration" "options" {
   http_method       = "OPTIONS"
   type              = "MOCK"
   request_templates = { "application/json" = "{\"statusCode\": 200}" }
+
+  depends_on = [
+    aws_api_gateway_method.options
+  ]
 }
 
 resource "aws_api_gateway_method_response" "options" {
@@ -25,6 +29,10 @@ resource "aws_api_gateway_method_response" "options" {
     "method.response.header.Access-Control-Allow-Methods" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true,
   }
+
+  depends_on = [
+    aws_api_gateway_method.options
+  ]
 }
 
 resource "aws_api_gateway_integration_response" "options" {
@@ -41,6 +49,8 @@ resource "aws_api_gateway_integration_response" "options" {
   }
 
   depends_on = [
+    aws_api_gateway_method.options,
+    aws_api_gateway_integration.options,
     aws_api_gateway_method_response.options
   ]
 }
