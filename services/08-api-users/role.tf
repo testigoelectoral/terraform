@@ -30,7 +30,7 @@ resource "aws_iam_policy" "login" {
           "cognito-idp:ForgotPassword",
           "cognito-idp:ConfirmForgotPassword"
         ]
-        Resource = ["${local.pool_arn}", "${local.account_pool_arn}"]
+        Resource = "${local.account_pool_arn}"
       },
     ]
   })
