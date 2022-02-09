@@ -85,10 +85,10 @@ resource "aws_cognito_user_pool" "testigo" {
     }
   }
 
-  lambda_config {
-    post_confirmation = local.userhash_arn
-    pre_sign_up       = local.validations_arn
-  }
+  # lambda_config {
+  #   post_confirmation = local.userhash_arn
+  #   pre_sign_up       = local.validations_arn
+  # }
 
 }
 
@@ -131,9 +131,3 @@ resource "aws_route53_record" "cognito" {
   }
 }
 
-resource "aws_api_gateway_authorizer" "authorizer" {
-  name          = "CognitoUserPoolAuthorizer"
-  type          = "COGNITO_USER_POOLS"
-  rest_api_id   = local.apigw_id
-  provider_arns = [aws_cognito_user_pool.testigo.arn, aws_cognito_user_pool.account.arn]
-}
