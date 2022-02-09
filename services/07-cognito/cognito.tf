@@ -1,6 +1,5 @@
 
 resource "aws_cognito_user_pool" "account" {
-
   name                       = "testigo-${var.environment}"
   auto_verified_attributes   = ["email"]
   username_attributes        = ["email"]
@@ -85,11 +84,9 @@ resource "aws_cognito_user_pool" "account" {
     }
   }
 
-  #   lambda_config {
-  #     post_confirmation = local.userhash_arn
-  #     pre_sign_up       = local.validations_arn
-  #   }
-
+  lambda_config {
+    post_confirmation = local.userhash_arn
+  }
 }
 
 resource "aws_cognito_user_pool_client" "account" {
@@ -107,4 +104,11 @@ resource "aws_cognito_user_pool_client" "account" {
     id_token      = "minutes"
     refresh_token = "days"
   }
+}
+
+resource "aws_api_gateway_authorizer" "authorizer" {
+  name          = "CognitoUserPoolAuthorizer"
+  type          = "COGNITO_USER_POOLS"
+  rest_api_id   = local.apigw_id
+  provider_arns = [aws_cognito_user_pool.testigo.arn, aws_cognito_user_pool.account.arn]
 }

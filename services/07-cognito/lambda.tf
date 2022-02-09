@@ -3,7 +3,7 @@ resource "aws_lambda_permission" "lambda_policy" {
   statement_id  = "AllowExecutionFromCognito"
   action        = "lambda:InvokeFunction"
   principal     = "cognito-idp.amazonaws.com"
-  source_arn    = aws_cognito_user_pool.testigo.arn
+  source_arn    = aws_cognito_user_pool.account.arn
   function_name = "backend-cognito-user-hash-${var.environment}"
   qualifier     = "running"
 }
@@ -17,7 +17,7 @@ resource "aws_iam_policy" "policy" {
       {
         Effect   = "Allow"
         Action   = "cognito-idp:AdminUpdateUserAttributes"
-        Resource = "${aws_cognito_user_pool.testigo.arn}"
+        Resource = "${aws_cognito_user_pool.account.arn}"
       },
     ]
   })
