@@ -110,5 +110,5 @@ resource "aws_api_gateway_authorizer" "authorizer" {
   name          = "CognitoUserPoolAuthorizer"
   type          = "COGNITO_USER_POOLS"
   rest_api_id   = local.apigw_id
-  provider_arns = [aws_cognito_user_pool.testigo.arn, aws_cognito_user_pool.account.arn]
+  provider_arns = [aws_cognito_user_pool.account.arn]
 }

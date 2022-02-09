@@ -15,27 +15,6 @@ locals {
   cognito_cert            = data.tfe_outputs.certs.values.arn_cognito
   apigw_id                = data.tfe_outputs.apigw.values.arn_api
   userhash_arn            = data.tfe_outputs.backend-cognito.values.hash_arn
-  validations_arn         = data.tfe_outputs.backend-cognito.values.validations_arn
-  cognito_callback_test   = ["http://localhost:3000", "http://localhost:3000/api/auth/callback/cognito"]
-  cognito_callback_normal = ["https://${local.domain}", "https://${local.app_domain}", "https://${local.api_domain}"]
-  cognito_callback        = var.environment == "dev" ? concat(local.cognito_callback_normal, local.cognito_callback_test) : local.cognito_callback_normal
-
-}
-
-output "pool_id" {
-  value = aws_cognito_user_pool.testigo.id
-}
-
-output "pool_arn" {
-  value = aws_cognito_user_pool.testigo.arn
-}
-
-output "pool_endpoint" {
-  value = aws_cognito_user_pool.testigo.endpoint
-}
-
-output "client_id" {
-  value = aws_cognito_user_pool_client.testigo.id
 }
 
 output "authorizer_id" {
@@ -48,10 +27,6 @@ output "account_pool_id" {
 
 output "account_pool_arn" {
   value = aws_cognito_user_pool.account.arn
-}
-
-output "account_pool_endpoint" {
-  value = aws_cognito_user_pool.account.endpoint
 }
 
 output "account_client_id" {
