@@ -27,7 +27,3 @@ locals {
 output "hash_arn" {
   value = aws_lambda_alias.hash.arn
 }
-
-output "validations_arn" {
-  value = aws_lambda_alias.validations.arn
-}
