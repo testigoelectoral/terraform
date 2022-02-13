@@ -12,5 +12,6 @@ locals {
     "dynamodb"         = "09"
     "api-myimages"     = "10"
     "backend-s3upload" = "11"
+    "api-images"       = "12"
   }
 }
