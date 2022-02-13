@@ -54,15 +54,6 @@ module "options_id_image" {
   apigw_id        = local.apigw_id
 }
 
-module "options_raw" {
-  source          = "./options"
-  resource_id     = aws_api_gateway_resource.raw.id
-  methods         = "GET"
-  headers         = "Authorization"
-  options_domains = local.options_domains
-  apigw_id        = local.apigw_id
-}
-
 module "options_votes" {
   source          = "./options"
   resource_id     = aws_api_gateway_resource.votes.id
