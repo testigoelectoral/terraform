@@ -21,7 +21,7 @@ resource "aws_iam_policy" "myimages" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["s3:PutObject", "s3:GetObject"]
+        Action   = ["s3:PutObject"]
         Resource = "${local.images_bucket_arn}/*"
       },
       {

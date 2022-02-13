@@ -29,17 +29,17 @@ resource "aws_api_gateway_integration" "put" {
 
   integration_http_method = "PUT"
   type                    = "AWS"
-  uri                     = "arn:aws:apigateway:${local.region}:s3:path/${local.images_bucket}/{sub}/{imageid}"
+  uri                     = "arn:aws:apigateway:${local.region}:s3:path/${local.images_bucket}/uploaded/{imageid}"
   credentials             = aws_iam_role.myimages.arn
 
   request_parameters = {
-    "integration.request.path.sub"                    = "context.authorizer.claims.sub",
     "integration.request.path.imageid"                = "context.requestId",
     "integration.request.header.Content-Type"         = "method.request.header.Content-Type",
     "integration.request.header.X-Amz-Meta-Accuracy"  = "method.request.header.X-Amz-Meta-Accuracy",
     "integration.request.header.X-Amz-Meta-Latitude"  = "method.request.header.X-Amz-Meta-Latitude",
     "integration.request.header.X-Amz-Meta-Longitude" = "method.request.header.X-Amz-Meta-Longitude",
     "integration.request.header.X-Amz-Meta-User-Hash" = "method.request.header.X-Amz-Meta-User-Hash",
+    "integration.request.header.X-Amz-Meta-User-Sub"  = "context.authorizer.claims.sub",
     "integration.request.header.X-Amz-Meta-Qr-Code"   = "method.request.header.X-Amz-Meta-Qr-Code",
   }
 
@@ -77,6 +77,8 @@ resource "aws_api_gateway_integration_response" "put" {
   response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "'${local.options_domains}'" }
 
   depends_on = [
+    aws_api_gateway_method.put,
+    aws_api_gateway_integration.put,
     aws_api_gateway_method_response.put
   ]
 }
