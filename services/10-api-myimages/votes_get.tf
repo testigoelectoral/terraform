@@ -98,11 +98,11 @@ resource "aws_api_gateway_integration_response" "votes_get-response" {
       #set($inputRoot = $input.path('$'))
       [
         #foreach($elem in $inputRoot.Items) {
-        "ImageVotesID": $elem.ImageVotesID.S,
+        "ImageVotesID": "$elem.ImageVotesID.S",
         "CreatedAt": "$elem.CreatedAt.S",
         "Votes": {
           #foreach($key in $elem.Votes.M.keySet())
-          "$key": $elem.Votes.M.get($key).N#if($foreach.hasNext),#end          
+          "$key": $elem.Votes.M.get($key).N#if($foreach.hasNext),#end
           #end
         }
         }#if($foreach.hasNext),#end
