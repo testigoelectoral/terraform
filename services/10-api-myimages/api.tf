@@ -33,6 +33,13 @@ resource "aws_api_gateway_resource" "votes" {
   path_part = "votes"
 }
 
+resource "aws_api_gateway_resource" "processing" {
+  rest_api_id = local.apigw_id
+  parent_id   = local.apigw_root
+
+  path_part = "processing"
+}
+
 ################################################################################################### 
 
 module "options_root" {
@@ -57,6 +64,15 @@ module "options_id_image" {
 module "options_votes" {
   source          = "./options"
   resource_id     = aws_api_gateway_resource.votes.id
+  methods         = "PUT,GET"
+  headers         = "Authorization,Content-Type"
+  options_domains = local.options_domains
+  apigw_id        = local.apigw_id
+}
+
+module "options_processing" {
+  source          = "./options"
+  resource_id     = aws_api_gateway_resource.processing.id
   methods         = "PUT,GET"
   headers         = "Authorization,Content-Type"
   options_domains = local.options_domains

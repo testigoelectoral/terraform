@@ -23,20 +23,17 @@ resource "aws_api_gateway_integration" "votes_get" {
 
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "arn:aws:apigateway:${local.region}:dynamodb:action/Scan"
+  uri                     = "arn:aws:apigateway:${local.region}:dynamodb:action/Query"
   credentials             = aws_iam_role.myimages.arn
 
   request_templates = {
     "application/json" = <<EOF
       {
         "TableName": "${local.dynamodb_votes_name}",
-        "FilterExpression": "(ImageID = :img) AND (CreatedBy = :sub)",
+        "FilterExpression": "ImageID = :img",
         "ExpressionAttributeValues": {
           ":img": {
               "S": "$method.request.path.imageid"
-          },
-          ":sub": {
-              "S": "$context.authorizer.claims.sub"
           }
         }
       }
@@ -98,7 +95,7 @@ resource "aws_api_gateway_integration_response" "votes_get-response" {
       #set($inputRoot = $input.path('$'))
       [
         #foreach($elem in $inputRoot.Items) {
-        "ImageVotesID": "$elem.ImageVotesID.S",
+        "Original": $elem.Original.B,
         "CreatedAt": "$elem.CreatedAt.S",
         "Votes": {
           #foreach($key in $elem.Votes.M.keySet())
@@ -108,7 +105,6 @@ resource "aws_api_gateway_integration_response" "votes_get-response" {
         }#if($foreach.hasNext),#end
         #end
       ]
-
     EOF
   }
 

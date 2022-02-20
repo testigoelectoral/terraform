@@ -32,14 +32,11 @@ resource "aws_api_gateway_integration" "votes_put" {
         #set($votes = $input.path('$.votes'))
         "TableName": "${local.dynamodb_votes_name}",
         "Item": {            
-            "ImageVotesID": {
-                "S": "$context.requestId"
-            },
             "ImageID": {
                 "S": "$method.request.path.imageid"
             },
-            "CreatedBy": {
-                "S": "$context.authorizer.claims.sub"
+            "Original": {
+                "BOOL": true
             },
             "CreatedAt": {
                 "S": "$context.requestTime"

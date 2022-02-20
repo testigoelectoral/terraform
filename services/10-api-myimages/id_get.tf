@@ -30,9 +30,12 @@ resource "aws_api_gateway_integration" "id_get" {
     "application/json" = <<EOF
       {
         "TableName": "${local.dynamodb_images_name}",
-        "KeyConditionExpression": "ImageID = :val",
+        "KeyConditionExpression": "OwnerSub = :owner AND ImageID = :image",
         "ExpressionAttributeValues": {
-          ":val": {
+          ":owner": {
+              "S": "$context.authorizer.claims.sub"
+          },
+          ":image": {
               "S": "$method.request.path.imageid"
           }
         }
