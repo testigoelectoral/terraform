@@ -13,6 +13,6 @@ resource "aws_dynamodb_table" "votes-owner" {
 
   attribute {
     name = "Original"
-    type = "B"
+    type = "BOOL"
   }
 }
