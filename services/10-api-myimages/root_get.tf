@@ -26,7 +26,7 @@ resource "aws_api_gateway_integration" "get" {
     "application/json" = <<EOF
       {
         "TableName": "${local.dynamodb_images_name}",
-        "FilterExpression": "OwnerSub = :val",
+        "KeyConditionExpression": "OwnerSub = :val",
         "ExpressionAttributeValues": {
           ":val": {
               "S": "$context.authorizer.claims.sub"

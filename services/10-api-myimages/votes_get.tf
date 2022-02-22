@@ -30,7 +30,7 @@ resource "aws_api_gateway_integration" "votes_get" {
     "application/json" = <<EOF
       {
         "TableName": "${local.dynamodb_votes_name}",
-        "FilterExpression": "ImageID = :img",
+        "KeyConditionExpression": "ImageID = :img",
         "ExpressionAttributeValues": {
           ":img": {
               "S": "$method.request.path.imageid"
