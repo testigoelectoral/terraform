@@ -50,7 +50,8 @@ resource "aws_api_gateway_integration" "votes_put" {
                     #end
                 }
             }
-        }
+        },
+        "ConditionExpression": "attribute_not_exists(ImageID)"
       }
     EOF
   }

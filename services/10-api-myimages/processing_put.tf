@@ -39,7 +39,8 @@ resource "aws_api_gateway_integration" "processing_put" {
             "CreatedAt": {
                 "S": "$context.requestTime"
             }
-        }
+        },
+        "ConditionExpression": "attribute_not_exists(OwnerID)"
       }
     EOF
   }
