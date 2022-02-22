@@ -95,7 +95,7 @@ resource "aws_api_gateway_integration_response" "votes_get-response" {
       #set($inputRoot = $input.path('$'))
       [
         #foreach($elem in $inputRoot.Items) {
-        "Original": $elem.Original.BOOL,
+        "Original": $elem.Original.N,
         "CreatedAt": "$elem.CreatedAt.S",
         "Votes": {
           #foreach($key in $elem.Votes.M.keySet())
