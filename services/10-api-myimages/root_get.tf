@@ -19,14 +19,14 @@ resource "aws_api_gateway_integration" "get" {
 
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "arn:aws:apigateway:${local.region}:dynamodb:action/Scan"
+  uri                     = "arn:aws:apigateway:${local.region}:dynamodb:action/Query"
   credentials             = aws_iam_role.myimages.arn
 
   request_templates = {
     "application/json" = <<EOF
       {
         "TableName": "${local.dynamodb_images_name}",
-        "FilterExpression": "OwnerSub = :val",
+        "KeyConditionExpression": "OwnerSub = :val",
         "ExpressionAttributeValues": {
           ":val": {
               "S": "$context.authorizer.claims.sub"

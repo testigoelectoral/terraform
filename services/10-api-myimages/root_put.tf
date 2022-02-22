@@ -1,8 +1,7 @@
 
 resource "aws_api_gateway_method" "put" {
-  rest_api_id = local.apigw_id
-  resource_id = aws_api_gateway_resource.myimages.id
-
+  rest_api_id          = local.apigw_id
+  resource_id          = aws_api_gateway_resource.myimages.id
   http_method          = "PUT"
   authorization        = "COGNITO_USER_POOLS"
   authorizer_id        = local.cognito_autorizer
@@ -23,10 +22,9 @@ resource "aws_api_gateway_method" "put" {
 }
 
 resource "aws_api_gateway_integration" "put" {
-  rest_api_id = local.apigw_id
-  resource_id = aws_api_gateway_resource.myimages.id
-  http_method = aws_api_gateway_method.put.http_method
-
+  rest_api_id             = local.apigw_id
+  resource_id             = aws_api_gateway_resource.myimages.id
+  http_method             = "PUT"
   integration_http_method = "PUT"
   type                    = "AWS"
   uri                     = "arn:aws:apigateway:${local.region}:s3:path/${local.images_bucket}/uploaded/{imageid}"
@@ -51,12 +49,10 @@ resource "aws_api_gateway_integration" "put" {
 resource "aws_api_gateway_method_response" "put" {
   for_each = local.api_status_response
 
-  rest_api_id = local.apigw_id
-  resource_id = aws_api_gateway_resource.myimages.id
-  http_method = aws_api_gateway_method.put.http_method
-
-  status_code = each.value.code
-
+  rest_api_id         = local.apigw_id
+  resource_id         = aws_api_gateway_resource.myimages.id
+  http_method         = "PUT"
+  status_code         = each.value.code
   response_parameters = { "method.response.header.Access-Control-Allow-Origin" = true }
 
   depends_on = [
@@ -65,14 +61,42 @@ resource "aws_api_gateway_method_response" "put" {
 }
 
 resource "aws_api_gateway_integration_response" "put" {
-  for_each = local.api_status_response
+  for_each = {
+    "BAD"   = local.api_status_response["BAD"]
+    "ERROR" = local.api_status_response["ERROR"]
+  }
 
-  rest_api_id = local.apigw_id
-  resource_id = aws_api_gateway_resource.myimages.id
-  http_method = aws_api_gateway_method.put.http_method
 
-  status_code       = aws_api_gateway_method_response.put[each.key].status_code
+  rest_api_id       = local.apigw_id
+  resource_id       = aws_api_gateway_resource.myimages.id
+  http_method       = "PUT"
+  status_code       = each.value.code
   selection_pattern = each.value.pattern
+
+  response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "'${local.options_domains}'" }
+
+  depends_on = [
+    aws_api_gateway_method.put,
+    aws_api_gateway_integration.put,
+    aws_api_gateway_method_response.put
+  ]
+}
+
+resource "aws_api_gateway_integration_response" "put-response" {
+
+  rest_api_id       = local.apigw_id
+  resource_id       = aws_api_gateway_resource.myimages.id
+  http_method       = "PUT"
+  status_code       = "200"
+  selection_pattern = "2\\d{2}"
+
+  response_templates = {
+    "application/json" = <<EOF
+      {
+        "ImageID": "$context.requestId"
+      }
+    EOF
+  }
 
   response_parameters = { "method.response.header.Access-Control-Allow-Origin" = "'${local.options_domains}'" }
 
