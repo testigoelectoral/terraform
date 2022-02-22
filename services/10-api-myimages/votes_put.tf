@@ -36,7 +36,7 @@ resource "aws_api_gateway_integration" "votes_put" {
                 "S": "$method.request.path.imageid"
             },
             "Original": {
-                "BOOL": true
+                "B": true
             },
             "CreatedAt": {
                 "S": "$context.requestTime"
