@@ -11,12 +11,12 @@ output "images_name" {
   value = aws_dynamodb_table.images.name
 }
 
-output "image_votes_arn" {
-  value = aws_dynamodb_table.image-votes.arn
+output "votes_owner_arn" {
+  value = aws_dynamodb_table.votes-owner.arn
 }
 
-output "image_votes_name" {
-  value = aws_dynamodb_table.image-votes.name
+output "votes_owner_name" {
+  value = aws_dynamodb_table.votes-owner.name
 }
 
 output "image_processing_arn" {
