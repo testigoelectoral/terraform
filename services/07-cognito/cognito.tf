@@ -84,9 +84,9 @@ resource "aws_cognito_user_pool" "account" {
     }
   }
 
-  lambda_config {
-    post_confirmation = local.userhash_arn
-  }
+  # lambda_config {
+  #   post_confirmation = local.userhash_arn
+  # }
 }
 
 resource "aws_cognito_user_pool_client" "account" {
